@@ -1,6 +1,6 @@
 package com.thoughtworks.osgi.workshop.provider;
 
-import com.thoughtworks.osgi.workshop.HelloWorld;
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

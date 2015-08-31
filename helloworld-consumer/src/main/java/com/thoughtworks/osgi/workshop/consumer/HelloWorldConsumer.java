@@ -1,6 +1,7 @@
 package com.thoughtworks.osgi.workshop.consumer;
 
-import com.thoughtworks.osgi.workshop.HelloWorld;
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

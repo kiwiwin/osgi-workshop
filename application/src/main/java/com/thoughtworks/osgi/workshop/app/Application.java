@@ -1,12 +1,12 @@
-package com.thoughtworks.osgi.workshop;
+package com.thoughtworks.osgi.workshop.app;
 
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.launch.Framework;
 import org.osgi.framework.launch.FrameworkFactory;
 import org.osgi.util.tracker.ServiceTracker;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -22,7 +22,6 @@ public class Application {
         init();
 
         startBundle("helloworld-1.0.jar");
-
         startBundle("helloworld-provider-1.0.jar");
         startBundle("helloworld-consumer-1.0.jar");
     }
@@ -51,7 +50,7 @@ public class Application {
     private static void init() {
 
         ServiceTracker<HelloWorld, HelloWorld> extensions
-                = new ServiceTracker<HelloWorld, HelloWorld>(framework.getBundleContext(), HelloWorld.class, null);
+                = new ServiceTracker<HelloWorld, HelloWorld>(framework.getBundleContext(), HelloWorld.class, new ExtensionPoint());
         extensions.open();
     }
 
@@ -59,12 +58,10 @@ public class Application {
         ServiceLoader<FrameworkFactory> frameworkFactories = ServiceLoader.load(FrameworkFactory.class);
         Iterator<FrameworkFactory> iterator = frameworkFactories.iterator();
         if (iterator.hasNext()) {
-            framework = iterator.next().newFramework(new HashMap<String, String>());
-//            framework = iterator.next().newFramework(getFrameworkConfig());
+            framework = iterator.next().newFramework(getFrameworkConfig());
             try {
                 framework.init();
                 framework.start();
-//                framework.waitForStop(0);
             } catch (BundleException e) {
                 e.printStackTrace();
             }
@@ -73,10 +70,10 @@ public class Application {
 
     private static Map<String, String> getFrameworkConfig() {
         Map<String, String> config = new HashMap<String, String>();
-        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.osgi.workshop.helloworld");
+        config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.osgi.workshop.definition");
         try {
-            config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
-        } catch (IOException e) {
+//            config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return config;

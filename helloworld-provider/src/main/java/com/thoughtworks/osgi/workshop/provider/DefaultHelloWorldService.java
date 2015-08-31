@@ -1,6 +1,7 @@
 package com.thoughtworks.osgi.workshop.provider;
 
-import com.thoughtworks.osgi.workshop.HelloWorld;
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
+import com.thoughtworks.osgi.workshop.definition.HelloWorld;
 
 public class DefaultHelloWorldService implements HelloWorld {
     @Override

@@ -1,0 +1,6 @@
+rootProject.name = 'osgi-workshop'
+
+include 'helloworld'
+include 'helloworld-provider'
+include 'helloworld-consumer'
+include 'application'

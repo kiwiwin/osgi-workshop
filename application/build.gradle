@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':helloworld')
+
+//    compile fileTree(dir: 'bundles', include: ['*.jar'])
+}

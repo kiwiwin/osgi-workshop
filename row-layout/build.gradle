@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':api')
+}
+
+jar {
+    manifest {
+        instruction 'Bundle-Activator', 'com.thoughtworks.osgi.workshop.api.rowlayout.Activator'
+    }
+}

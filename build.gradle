@@ -23,5 +23,7 @@ subprojects {
         }
     }
 
+    distsDirName = '../../bundles'
+
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 }

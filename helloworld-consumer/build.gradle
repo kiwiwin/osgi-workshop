@@ -1,9 +1,0 @@
-dependencies {
-    compile project(':helloworld')
-}
-
-jar {
-    manifest {
-        instruction 'Bundle-Activator', 'com.thoughtworks.osgi.workshop.consumer.Activator'
-    }
-}

@@ -1,16 +1,16 @@
 package com.thoughtworks.osgi.workshop.api.rowlayout;
 
-import com.thoughtworks.osgi.workshop.api.Layout;
+import com.thoughtworks.osgi.workshop.api.Render;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 public class Activator implements BundleActivator {
-    private ServiceRegistration<Layout> serviceRegistration;
+    private ServiceRegistration<Render> serviceRegistration;
 
     @Override
     public void start(BundleContext context) throws Exception {
-        serviceRegistration = context.registerService(Layout.class, new RowLayout(), null);
+        serviceRegistration = context.registerService(Render.class, new RowLayout(), null);
     }
 
     @Override

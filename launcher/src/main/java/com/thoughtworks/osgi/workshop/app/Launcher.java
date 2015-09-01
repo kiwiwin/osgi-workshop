@@ -7,8 +7,6 @@ import org.osgi.framework.launch.Framework;
 import org.osgi.framework.launch.FrameworkFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,20 +19,28 @@ public class Launcher {
 
     public static void main(String[] args) {
         launchFramework();
-        init();
-
-        startBundles(
-                "cms-1.0.jar",
-                "row-layout-1.0.jar",
-                "api-1.0.jar"
-        );
+        startBundles("bundles");
     }
 
-    private static void startBundles(String... bundles) {
+    private static void startBundles(String directory) {
         List<Bundle> installedBundles = new ArrayList<Bundle>();
-        for (String bundle : bundles) {
-            installedBundles.add(installBundle(bundle));
+        List<File> jarFiles = new ArrayList<File>();
+
+        for (File file : new File(directory).listFiles()) {
+            if (file.getAbsolutePath().endsWith(".jar")) {
+                jarFiles.add(file);
+            }
         }
+
+        for (File bundleFile : jarFiles) {
+            try {
+                installedBundles.add(framework.getBundleContext().installBundle(bundleFile.toURI().toString()));
+            } catch (BundleException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
         for (Bundle installedBundle : installedBundles) {
             try {
                 installedBundle.start();
@@ -42,22 +48,6 @@ public class Launcher {
                 e.printStackTrace();
             }
         }
-    }
-
-    private static Bundle installBundle(String bundle) {
-        try {
-            return framework.getBundleContext().installBundle(new File("bundles/" + bundle).toURI().toString());
-        } catch (BundleException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void init() {
-
-//        ServiceTracker<Layout, Layout> extensions
-//                = new ServiceTracker<Layout, Layout>(framework.getBundleContext(), Layout.class, new ExtensionPoint());
-//        extensions.open();
     }
 
     private static void launchFramework() {

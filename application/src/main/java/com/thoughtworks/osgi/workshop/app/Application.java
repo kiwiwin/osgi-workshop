@@ -1,6 +1,7 @@
 package com.thoughtworks.osgi.workshop.app;
 
 import com.thoughtworks.osgi.workshop.definition.HelloWorld;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.launch.Framework;
@@ -9,8 +10,10 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
@@ -21,19 +24,35 @@ public class Application {
         launchFramework();
         init();
 
-        startBundle("helloworld-1.0.jar");
-        startBundle("helloworld-provider-1.0.jar");
-        startBundle("helloworld-consumer-1.0.jar");
+        startBundles(
+                "helloworld-1.0.jar",
+                "helloworld-provider-1.0.jar",
+                "helloworld-consumer-1.0.jar"
+                );
     }
 
-    private static void startBundle(String bundle) {
+    private static void startBundles(String... bundles) {
+        List<Bundle> installedBundles = new ArrayList<Bundle>();
+        for (String bundle : bundles) {
+            installedBundles.add(installBundle(bundle));
+        }
+        for (Bundle installedBundle : installedBundles) {
+            try {
+                installedBundle.start();
+            } catch (BundleException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static Bundle installBundle(String bundle) {
         InputStream stream = null;
         try {
             stream = getBundle(bundle);
-            org.osgi.framework.Bundle installed = framework.getBundleContext().installBundle(bundle, stream);
-            installed.start();
+            return framework.getBundleContext().installBundle(bundle, stream);
         } catch (BundleException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             try {
                 if (stream != null) stream.close();
@@ -71,6 +90,7 @@ public class Application {
     private static Map<String, String> getFrameworkConfig() {
         Map<String, String> config = new HashMap<String, String>();
         config.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "com.thoughtworks.osgi.workshop.definition");
+        config.put(Constants.FRAMEWORK_STORAGE_CLEAN, Constants.FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT);
         try {
 //            config.put(Constants.FRAMEWORK_STORAGE, File.createTempFile("osgi", "launcher").getParent());
         } catch (Exception e) {

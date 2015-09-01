@@ -23,7 +23,11 @@ subprojects {
         }
     }
 
-    distsDirName = '../../bundles'
-
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+}
+
+def componentProjects = subprojects.findAll { it.name != 'launcher' }
+
+configure(componentProjects) {
+    libsDirName = '../../bundles'
 }

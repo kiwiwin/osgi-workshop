@@ -24,9 +24,9 @@ public class Launcher {
         init();
 
         startBundles(
-                "api-1.0.jar",
+                "cms-1.0.jar",
                 "row-layout-1.0.jar",
-                "cms-1.0.jar"
+                "api-1.0.jar"
         );
     }
 

@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':api')
+}
+
+jar {
+    manifest {
+        instruction 'Service-Component', 'OSGI-INF/component.xml'
+    }
+}

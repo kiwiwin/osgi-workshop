@@ -13,6 +13,7 @@ subprojects {
     dependencies {
         compile 'org.osgi:org.osgi.core:5.0.0'
         compile "org.apache.felix:org.apache.felix.main:5.0.0"
+        compile "org.apache.felix:org.apache.felix.scr:2.0.0"
     }
 
     uploadArchives {
@@ -29,5 +30,5 @@ subprojects {
 def componentProjects = subprojects.findAll { it.name != 'launcher' }
 
 configure(componentProjects) {
-    libsDirName = '../../bundles'
+    distsDirName = '../../bundles'
 }

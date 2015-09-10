@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="com.thoughtworks.osgi.workshop.api.rowlayout" immediate="true">
+    <implementation class="com.thoughtworks.osgi.workshop.api.rowlayout.RowLayout" />
+    <property name="service.description" value="Row Layout" />
+    <property name="service.vendor" value="ThoughtWorks" />
+    <service>
+        <provide interface="com.thoughtworks.osgi.workshop.api.Render" />
+    </service>
+</component>

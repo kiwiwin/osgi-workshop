@@ -9,6 +9,7 @@ reports
 .DS_Store
 .idea
 generated
-bundles/
+/bundles/*
+!/bundles/org.apache.felix.scr-2.0.0.jar
 repository/
 felix-cache/
